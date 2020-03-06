@@ -3,8 +3,19 @@
 import discord
 from discord.ext import commands
 import random
+import time
 
 client = commands.Bot(command_prefix='pspsps ')
+
+current_time = time.localtime()
+hour = current_time.tm_hour
+minute = current_time.tm_min
+second = current_time.tm_sec
+
+@client.event
+async def on_ready():
+    if hour == 3 :
+        await ctx.send('*TIME 2 HAB LUNCH*')
 
 @client.event
 async def on_ready():
@@ -13,19 +24,18 @@ async def on_ready():
 #help
 @client.command(name='commands')
 async def come(ctx):
-    await ctx.send(' salami: What does Mr.Jingles think about salami? \n come: Mr jingles will come to you  \n snack: yummy \n feed: Feed Mr.Jingles \n pet: Give Mr.Jingles some love!\n talk: Mr.Jingles can talk! Come on, try it out!\n gotobed:Tells Jeremy to go to sleep.')
+    await ctx.send('COMMANDS:\n salami: What does Mr.Jingles think about salami? \n come: Mr jingles will come to you  \n snack: yummy \n feed: Feed Mr.Jingles \n pet: Give Mr.Jingles some love!\n talk: Mr.Jingles can talk! Come on, try it out!\n gotobed:Tells you to go to sleep.')
 
 #salami
 @client.command(name='salami')
 async def salami(ctx):
     await ctx.send('MEOW meow meoew MOEWEOW!! Translation: cats can have a lil salami as a snack..')
 
-#send media (not yet working correctly)
+#send media 
 @client.command(name='selfie')
-async def salami(ctx):
-    with open('jjingle.jpg', 'rb') as f:
-        picture = discord.File(f)
-        await ctx.send(picture)
+async def selfie(ctx):
+    await ctx.send("*Mr.Jingles is looking rather dapper today.*")
+    await ctx.send(file=discord.File('jjingle.jpg'))
 
 #snack
 @client.command(name='snack')
@@ -88,15 +98,8 @@ async def come(ctx):
 #talks to the chat - go to bed!
 @client.command(name='gotobed')
 async def come(ctx):
-    await ctx.send('JEREMY STUART ITS PAST YOUR BEDTIME', tts=True)
+    await ctx.send('ITS PAST YOUR BEDTIME', tts=True)
 
-@client.event
-async def on_message(message):
-    if client.user.id != message.author.id:
-        if 'foo' in message.content:
-            await client.send_message(message.channel, 'bar')
-
-    await client.process_commands(message)
 
 #token
-client.run('Njc2MjAxOTI0NjQyNDcxOTQy.XkCQwQ.NVYt19pc7UfaJ2qQec541zg1FKs')
+client.run('token goes here ')
