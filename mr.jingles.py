@@ -1,4 +1,4 @@
-
+from lib2to3.pgen2 import token
 import discord
 from discord.ext import commands
 import random
@@ -6,20 +6,20 @@ import time
 
 client = commands.Bot(command_prefix='pspsps ')
 
-current_time = time.localtime()
-hour = current_time.tm_hour
-minute = current_time.tm_min
-second = current_time.tm_sec
+# current_time = time.localtime()
+# hour = current_time.tm_hour
+# minute = current_time.tm_min
+# second = current_time.tm_sec
 
-@client.event
-async def on_ready():
-    if hour == 3 :
-        await ctx.send('*TIME 2 HAB LUNCH*')
+# @client.event
+# async def on_ready():
+#     if hour == 3 :
+#         await ctx.send('*TIME 2 HAB LUNCH*')
 
-@client.event
-@client.command(name='talk')
-async def on_ready():
-    print('mr.jingles is ready to snack...')
+#@client.event
+# @client.command(name='talk')
+# async def on_ready():
+#     print('mr.jingles is ready to snack...')
 
 #help
 @client.command(name='commands')
@@ -116,7 +116,7 @@ async def come(ctx):
 
 #goodnight
 @client.command(name='goodnight')
-async def come(ctx):
+async def goodnight(ctx):
     await ctx.send('*Its time to sleep. Mr.Jingles curls up to your head as he purrs. Your head feels nice and cozy! Mr.Jingles closes his eyes.\nGoodnight Mr Jingles.*')
 
 #feed menu and options
@@ -183,6 +183,7 @@ async def come(ctx):
 async def come(ctx):
     await ctx.send('ITS PAST YOUR BEDTIME', tts=True)
 
-
+with open('token.txt', 'r') as file:
+    token = file.read().rstrip()
 #token
-client.run('token')
+client.run(token)
