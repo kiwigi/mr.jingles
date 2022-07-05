@@ -1,25 +1,112 @@
+from email import message
 from lib2to3.pgen2 import token
 import discord
 from discord.ext import commands
+# from discord.ui import select
 import random
 import time
 
-client = commands.Bot(command_prefix='pspsps ')
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+client = commands.Bot(command_prefix='pspsps ', intents=intents)
+
+
 
 # current_time = time.localtime()
 # hour = current_time.tm_hour
 # minute = current_time.tm_min
 # second = current_time.tm_sec
 
-# @client.event
-# async def on_ready():
-#     if hour == 3 :
-#         await ctx.send('*TIME 2 HAB LUNCH*')
+
 
 #@client.event
 # @client.command(name='talk')
 # async def on_ready():
 #     print('mr.jingles is ready to snack...')
+
+class MyView(discord.ui.View):
+    @discord.ui.select( # the decorator that lets you specify the properties of the select menu
+        placeholder = "What's on the menu?", # the placeholder text that will be displayed if nothing is selected
+        min_values = 1, # the minimum number of values that must be selected by the users
+        max_values = 1, # the maxmimum number of values that can be selected by the users
+        disabled = False,
+        options = [ # the list of options from which users can choose, a required field
+            discord.SelectOption(
+                label="Salami",
+                value="0",
+                emoji="🍖",
+                description="Cats can have a lil salami as a snack"
+            ),
+            discord.SelectOption(
+                label="Tuna",
+                value="1",
+                emoji="🐟",
+                description="A safe choice for a cat"
+            ),
+            discord.SelectOption(
+                label="Vegtabl",
+                value="2",
+                emoji="🥦",
+                description="You might want to re-think this"
+            ),
+            discord.SelectOption(
+                label="froot loops",
+                value="3",
+                emoji="🍩",
+                description="Is this healthy?"
+            ),
+            discord.SelectOption(
+                label="Fancy Feast Wet Cat Food",
+                value="4",
+                emoji="🥫",
+                description="A feast fit for a king"
+            ),
+            discord.SelectOption(
+                label=" Hill's Science Diet Adult Urinary & Hairball Control Canned Cat Food, Savory Chicken Entrée, 5.5 oz",
+                value="5",
+                emoji="🥫",
+                description="A healthier option"
+            )
+        ]
+    )
+    async def select_callback(ctx,select, interaction): # the function called when the user is done selecting options
+  
+        select.disabled = True
+        
+        if select.values[0] == "0":
+            await interaction.response.send_message('*Mr.Jingles looks happy. He is grateful for a lil salami. Although he would like more, he knows that cats can only have a little salami as a snack so he goes to sleep instead of asking for more. Good job Mr.Jingles!* 🙌🥳')
+            
+        elif select.values[0] == "1":
+            await interaction.response.send_message('*Mr.Jingles looks happy but meows.. Maybe he wants more?* 🥺')
+         
+        elif select.values[0] == "2":
+            await interaction.response.send_message('🙀 *Mr.Jingles does not eat such fowl things! He leaves and never speaks to you again!* 😿💔')
+          
+        elif select.values[0] == "3":
+            await interaction.response.send_message('*Mr.Jingles feeds on the loops...* "MEOW!!!!" \nTranslation: Thank you for the lööps, brøther.')
+             
+        elif select.values[0] == "4":
+            await interaction.response.send_message('*Mr.Jingles looks pleased! He begins to serenade you by playing some Mozart on the cat piano* 🎶😳🎹')
+            
+        elif select.values[0] == "5":
+            await interaction.response.send_message('*Mr.Jingles stares and wonders what you are trying to say by selecting the diet option. He does not look pleased.*')
+
+
+
+@client.command(name= 'feed')
+async def flavor(ctx):
+    authId = ctx.author.id
+    message = await ctx.reply('Choose what to feed Mr.Jingles: ', view=MyView())
+    #await ctx.send('<@'+str(authId)+'> has fed Mr.Jingles!')
+    #await message.edit(content="A selection was made.")
+    
+    
+
+
+
+
 
 #help
 @client.command(name='commands')
@@ -119,35 +206,7 @@ async def come(ctx):
 async def goodnight(ctx):
     await ctx.send('*Its time to sleep. Mr.Jingles curls up to your head as he purrs. Your head feels nice and cozy! Mr.Jingles closes his eyes.\nGoodnight Mr Jingles.*')
 
-#feed menu and options
-@client.command(name='feed')
-async def feed(ctx):
-    #await ctx.send('What would you like to feed Mr.Jingles?')
-    await ctx.send('Whats on the menu??\nsalami: feed salami\ntuna: feed tuna\nvegtabl: feed vegtabl\nloops: feed Frootloops™')
-    @client.event
-    async def on_message(message):
-        auth = message.author
-        if message.author == client.user:
-            return
-        if message.author == auth:
-            if message.content== 'feed salami':
-                await ctx.send('*Mr.Jingles looks happy. He is grateful for a lil salami. Although he would like more, he knows that cats can only have a little salami as a snack so he goes to sleep instead of asking for more. Good job Mr.Jingles!*')
-                await client.process_commands(message)
-            elif message.content== 'feed tuna':
-                await ctx.send('*Mr.Jingles looks happy but meows.. Maybe he wants more?*')
-                await client.process_commands(message)
-            elif message.content== 'feed vegtabl':
-                await ctx.send('*Mr.Jingles does not eat such fowl things! He leaves and never speaks to you again!*')
-                await client.process_commands(message)
-            elif message.content== 'feed loops':
-                await ctx.send('*Mr.Jingles feeds on the loops...*')
-                m=await ctx.send("MEOW!!!!")
-                await ctx.send(content="Translation: Thank you for the lööps, brøther.")
-                await client.process_commands(message)
-            else:
-                #await ctx.send("*that wasn't an option dummy*")
-                await client.process_commands(message)
-    await client.process_commands(message)
+
 
 
 #BITE
