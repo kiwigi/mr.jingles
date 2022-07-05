@@ -2,15 +2,21 @@ from email import message
 from lib2to3.pgen2 import token
 import discord
 from discord.ext import commands
-# from discord.ui import select
 import random
 import time
+import mysql.connector
 
 
 intents = discord.Intents.default()
 intents.message_content = True
 
-client = commands.Bot(command_prefix='pspsps ', intents=intents)
+client = commands.Bot(command_prefix=['pspsps ', 'Pspsps '], intents=intents)
+
+# inp = open('dbConn.txt', 'r', encoding='utf-8')
+
+# connection = eval('mysql.connector.connect({})'.format(inp.readline().strip()))
+
+# inp.close()
 
 
 
@@ -96,15 +102,18 @@ class MyView(discord.ui.View):
 
 
 @client.command(name= 'feed')
-async def flavor(ctx):
+async def feed(ctx):
     authId = ctx.author.id
     message = await ctx.reply('Choose what to feed Mr.Jingles: ', view=MyView())
     #await ctx.send('<@'+str(authId)+'> has fed Mr.Jingles!')
     #await message.edit(content="A selection was made.")
     
-    
-
-
+ #catnip   
+@client.command(name= 'catnip')
+async def catnip(ctx):
+    await ctx.send('🌿😎💨 *Mr.Jingles hits the nip...* ')
+    nipOps = ['*AYO?! 😳 Mr.Jingles is break-dancing! The catnip went hard this time*','*Mr.Jingles looks super chill. He\'s straight-up just vibin right now. 😎*', '*Mr.Jingles speaks speaks to you. He says:*\nLong you live and high you fly\nSmiles you\'ll give and tears you\'ll cry\nAnd all you touch and all you see\nIs all your life will ever be.\n *I guess the catnip made his meow sound weird 😳*']
+    await ctx.send(random.choice(nipOps)) 
 
 
 
@@ -169,7 +178,7 @@ async def bitches(ctx):
                 )
         embed.set_image(url="https://cdn.discordapp.com/attachments/940849748330577983/955684098775609414/Felini_cat_summerTime_Sunnies_3k_orig-1024x683.png")
         await ctx.send(embed=embed)
-    elif ctx.author.id == 324680839084507149: #gagan
+    elif ctx.author.id == 807069645655244820: #gagan
         await ctx.send('*Mr. Jingles is unable to call all of your bitches since you have too many.*')
         embed = discord.Embed(
                 title="",
@@ -219,7 +228,7 @@ async def bite(ctx):
             await ctx.send('*Mr.Jingles dislikes hairy food.. He refuses to bite<@'+str(mentionId)+'>.*')
         elif mentionId == 676201924642471942:
             await ctx.send('*Mr.Jingles is not in the mood to bite himself today you weirdo.*')
-        elif mentionId == 324680839084507149 or mentionId == 606141720563810315:
+        elif mentionId == 807069645655244820 or mentionId == 606141720563810315:
             await ctx.send('*Mr.Jingles bites <@'+str(mentionId)+'>! He is grateful for the tasty meal!*')
         else:    
             await ctx.send('*Mr.Jingles bites <@'+str(mentionId)+'>! They did not taste very good...*')
@@ -236,11 +245,6 @@ async def pet(ctx):
 @client.command(name='talk')
 async def come(ctx):
     await ctx.send('meow', tts=True)
-
-#talks to the chat - go to bed!
-@client.command(name='gotobed')
-async def come(ctx):
-    await ctx.send('ITS PAST YOUR BEDTIME', tts=True)
 
 with open('token.txt', 'r') as file:
     token = file.read().rstrip()
